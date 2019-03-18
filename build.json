@@ -1,0 +1,26 @@
+{
+    "builders": [{
+        "type": "docker",
+        "image": "jenkinsci/ssh-slave:latest",
+        "commit": true,
+        "changes": [
+            "VOLUME /data",
+            "WORKDIR /data",
+            "EXPOSE 6379",
+            "ENTRYPOINT [\"docker-entrypoint.sh\"]",
+            "CMD [\"redis-server\"]"
+        ]
+    }],
+    "provisioners":[{
+        "type": "ansible",
+        "user": "root",
+        "playbook_file": "ansible/playbook.yml",
+        "extra_arguments": [ "-v" ]
+      }
+    ],
+    "post-processors": [[ {
+        "type": "docker-tag",
+        "repository": "hypery2k/packer-demo",
+        "tag": "latest"
+    } ]]
+}
