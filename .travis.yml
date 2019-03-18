@@ -1,11 +1,13 @@
 sudo: required
 dist: trusty
-language: node_js
-node_js:
-  - "8"
-  - "10"
+language: python
+
 services:
   - docker
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
 
 script:
    - packer build build.json
